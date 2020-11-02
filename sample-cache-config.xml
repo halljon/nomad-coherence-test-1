@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<cache-config
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://xmlns.oracle.com/coherence/coherence-cache-config"
+        xsi:schemaLocation="http://xmlns.oracle.com/coherence/coherence-cache-config
+	http://xmlns.oracle.com/coherence/coherence-cache-config/1.0/coherence-cache-config.xsd">
+
+    <caching-scheme-mapping>
+        <cache-mapping>
+            <cache-name>*</cache-name>
+            <scheme-name>sample-partitioned-scheme</scheme-name>
+        </cache-mapping>
+    </caching-scheme-mapping>
+
+    <caching-schemes>
+        <distributed-scheme>
+            <scheme-name>sample-partitioned-scheme</scheme-name>
+            <service-name>SamplePartitionedCacheService</service-name>
+            <backing-map-scheme>
+                <local-scheme/>
+            </backing-map-scheme>
+            <autostart>true</autostart>
+        </distributed-scheme>
+
+        <proxy-scheme>
+            <service-name>ExtendProxyServerService</service-name>
+            <acceptor-config>
+                <tcp-acceptor>
+                    <local-address>
+                        <address system-property="coherence.extend.address">x</address>
+                        <port system-property="coherence.extend.port">x</port>
+                    </local-address>
+                </tcp-acceptor>
+            </acceptor-config>
+            <autostart system-property="coherence.extend.enabled">false</autostart>
+        </proxy-scheme>
+    </caching-schemes>
+</cache-config>
