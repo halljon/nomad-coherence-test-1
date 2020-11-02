@@ -1,3 +1,4 @@
+// NOTE: HACKING ABOUT TRYING IDEAS - POC ONLY
 job "project-1-prod" {
   //  region = "europe"
 
@@ -6,16 +7,20 @@ job "project-1-prod" {
   ]
 
   group "storage" {
-    count = 1
+    count = 6
 
     task "storage-instance" {
       //      constraint {
       //        attribute = "${meta.jvm_placement}"
       //        value = "server1"
       //      }
+
       artifact {
-//        source = "https://repo1.maven.org/maven2/com/oracle/coherence/ce/coherence/20.06.1/coherence-20.06.1.jar"
         source = "${NOMAD_META_COHERENCE_ARTIFACT_SOURCE}"
+      }
+
+      artifact {
+        source = "https://raw.githubusercontent.com/halljon/nomad-coherence-test-1/main/sample-cache-config.xml"
       }
 
       driver = "java"
@@ -31,8 +36,9 @@ job "project-1-prod" {
           "-Dcoherence.rack=${NOMAD_META_RACK_NAME}",
           "-Dcoherence.machine=${attr.unique.hostname}",
           "-Dcoherence.ttl=${NOMAD_META_CLUSTER_TTL}",
-          "-Dcoherence.role=${NOMAD_META_STORAGE_ROLE_NAME}",
           "-Dcoherence.log=${NOMAD_TASK_DIR}/${NOMAD_META_CLUSTER_NAME}-${attr.unique.hostname}-${NOMAD_META_STORAGE_ROLE_NAME}-${NOMAD_ALLOC_INDEX}.log",
+          "-Dcoherence.role=${NOMAD_META_STORAGE_ROLE_NAME}",
+          "-Dcoherence.cacheconfig=${NOMAD_TASK_DIR}/${NOMAD_META_STORAGE_CACHE_CONFIG}",
           "-Dcom.sun.management.jmxremote",
           "-Dcoherence.management=all",
           "-Dcoherence.management.remote=true",
@@ -93,7 +99,7 @@ job "project-1-prod" {
   meta {
     CLUSTER_NAME = "prod"
     CLUSTER_TTL = "1"
-    CLUSTER_DEFAULT_CACHE_CONFIG = "coherence-cache-config.xml"
+    CLUSTER_DEFAULT_CACHE_CONFIG = "sample-cache-config.xml"
     CLUSTER_DEFAULT_OVERRIDE_CONFIG = ""
 
     SITE_NAME = "site-name"
@@ -104,7 +110,7 @@ job "project-1-prod" {
 
     STORAGE_MEMORY = "64m"
     STORAGE_ROLE_NAME = "storage"
-    STORAGE_CACHE_CONFIG = "${NOMAD_META_CLUSTER_DEFAULT_CACHE_CONFIG}"
+    STORAGE_CACHE_CONFIG = "sample-cache-config.xml"
     STORAGE_OVERRIDE_CONFIG = ""
     STORAGE_LOG_LEVEL = 6
     STORAGE_INSTANCE_COUNT = 4
