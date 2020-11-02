@@ -28,8 +28,8 @@
             <acceptor-config>
                 <tcp-acceptor>
                     <local-address>
-                        <address system-property="coherence.extend.address">x</address>
-                        <port system-property="coherence.extend.port">x</port>
+                        <address system-property="coherence.extend.address">127.0.0.1</address>
+                        <port system-property="coherence.extend.port">12345</port>
                     </local-address>
                 </tcp-acceptor>
             </acceptor-config>
