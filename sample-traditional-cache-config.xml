@@ -25,14 +25,6 @@
 
         <proxy-scheme>
             <service-name>ExtendProxyServerService</service-name>
-            <acceptor-config>
-                <tcp-acceptor>
-                    <local-address>
-                        <address system-property="coherence.extend.address">127.0.0.1</address>
-                        <port system-property="coherence.extend.port">12345</port>
-                    </local-address>
-                </tcp-acceptor>
-            </acceptor-config>
             <autostart system-property="coherence.extend.enabled">false</autostart>
         </proxy-scheme>
     </caching-schemes>
